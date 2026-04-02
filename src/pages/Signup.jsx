@@ -26,41 +26,49 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#0f0f10] text-white">
-      <div className="w-[320px] p-6 bg-[#111] rounded-xl">
-        <h2 className="text-xl font-semibold mb-4">Create Account</h2>
-
-        <input
-          placeholder="Email"
-          className="w-full mb-3 p-2 rounded bg-black"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full mb-4 p-2 rounded bg-black"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
+    <div className="flex items-center justify-center min-h-screen bg-[#0f0f10] text-white p-4">
+      <div className="w-full max-w-sm">
         <button
-          onClick={handleSignup}
-          className="w-full bg-indigo-600 hover:bg-indigo-500 py-2 rounded-lg"
+          onClick={() => navigate("/")}
+          className="mb-4 text-gray-400 hover:text-white transition"
         >
-          Signup
+          ← Back
         </button>
+        <div className="w-full max-w-sm p-6 bg-[#111] rounded-xl">
+          <h2 className="text-xl font-semibold mb-4">Create Account</h2>
 
-        <p className="text-sm mt-4 text-gray-400">
-          Already have an account?{" "}
-          <span
-            onClick={() => navigate("/login")}
-            className="text-indigo-400 cursor-pointer"
+          <input
+            placeholder="Email"
+            className="w-full mb-3 p-3 rounded bg-black text-base"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full mb-4 p-3 rounded bg-black text-base"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button
+            onClick={handleSignup}
+            className="w-full bg-indigo-600 hover:bg-indigo-500 py-2 rounded-lg text-base"
           >
-            Login
-          </span>
-        </p>
+            Signup
+          </button>
+
+          <p className="text-sm mt-4 text-gray-400">
+            Already have an account?{" "}
+            <span
+              onClick={() => navigate("/login")}
+              className="text-indigo-400 cursor-pointer"
+            >
+              Login
+            </span>
+          </p>
+        </div>
       </div>
     </div>
   );

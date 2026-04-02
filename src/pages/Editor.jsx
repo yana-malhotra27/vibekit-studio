@@ -17,6 +17,7 @@ export default function Editor() {
   const { id } = useParams();
 
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   useEffect(() => {
   const fetchPage = async () => {
     const token = localStorage.getItem("token");
@@ -42,6 +43,8 @@ export default function Editor() {
 );
 setFeatures(page.sections?.features || [{ title: "", desc: "" }]);
 setGallery(page.sections?.gallery || [""]);
+setContactEnabled(page.sections?.contact?.enabled ?? true);
+setContactEmail(page.sections?.contact?.email || "");
     }
 
     setLoading(false);
@@ -52,7 +55,15 @@ setGallery(page.sections?.gallery || [""]);
 
 const [gallery, setGallery] = useState([""]);
 
+const [contactEnabled, setContactEnabled] = useState(true);
+const [contactEmail, setContactEmail] = useState("");
+
 const handleSave = async () => {
+  if (contactEnabled && !contactEmail) {
+    alert("Please enter email for contact form");
+    return;
+  }
+
   const token = localStorage.getItem("token");
 
   await fetch("/.netlify/functions/pages-update", {
@@ -69,6 +80,10 @@ const handleSave = async () => {
     hero,
     features,
     gallery: gallery.filter((img) => img.trim() !== ""),
+    contact: {
+    enabled: contactEnabled,
+    email: contactEmail,
+  },
   },
 })
   });
@@ -100,14 +115,30 @@ const handlePublish = async () => {
 if (loading) return <div className="p-10">Loading...</div>;
 
   return (
-    <div className="flex min-h-screen bg-[var(--bg)] text-[var(--text)]">
+    <div className="flex min-h-screen bg-black text-white">
+      {/* MOBILE SIDEBAR TOGGLE */}
+      <button
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="md:hidden fixed top-4 left-4 z-50 bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-full shadow-lg"
+      >
+        {sidebarOpen ? '✕' : '☰'}
+      </button>
+
       {/* LEFT PANEL */}
-      <div className="w-[320px] p-6 border-r border-gray-800 bg-[#0f0f10] backdrop-blur">
-        <h2 className="text-lg font-semibold mb-6">Page Settings</h2>
+      <aside className={`w-full md:w-[360px] p-6 border-r border-gray-800 bg-[#0f0f10]/80 backdrop-blur fixed md:relative z-40 h-full md:h-auto overflow-y-auto transition-transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-lg font-semibold">Page Settings</h2>
+          <button
+            onClick={() => window.history.back()}
+            className="text-sm text-gray-300 hover:text-white transition px-2 py-1 rounded-full bg-white/10"
+          >
+            Back
+          </button>
+        </div>
 
         <label className="text-sm text-gray-400">Title</label>
         <input
-          className="w-full mt-1 mb-4 p-2 rounded bg-[#111]"
+          className="w-full mt-2 mb-4 p-3 rounded-lg bg-[#111] border border-gray-700 placeholder-gray-500"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
@@ -116,7 +147,7 @@ if (loading) return <div className="p-10">Loading...</div>;
         <select
   value={theme}
   onChange={(e) => setTheme(e.target.value)}
-  className="w-full mt-1 mb-6 p-2 rounded bg-[#111]"
+  className="w-full mt-2 mb-6 p-3 rounded-lg bg-[#111] border border-gray-700"
 >
           <option value="dark">Dark</option>
           <option value="light">Light</option>
@@ -142,20 +173,31 @@ if (loading) return <div className="p-10">Loading...</div>;
 
   {features.map((f, i) => (
     <div key={i} className="mb-3 p-3 bg-[var(--card)] rounded">
-      <input
-        placeholder="Title"
-        className="w-full mb-2 p-2 bg-black rounded"
-        value={f.title}
-        onChange={(e) => {
-          const updated = [...features];
-          updated[i].title = e.target.value;
-          setFeatures(updated);
-        }}
-      />
+      <div className="flex justify-between items-start gap-2 mb-2">
+        <div className="grow">
+          <input
+            placeholder="Title"
+            className="w-full p-2 bg-black rounded"
+            value={f.title}
+            onChange={(e) => {
+              const updated = [...features];
+              updated[i].title = e.target.value;
+              setFeatures(updated);
+            }}
+          />
+        </div>
 
-      <input
+        <button
+          onClick={() => setFeatures(features.filter((_, idx) => idx !== i))}
+          className="text-xs px-2 py-1 bg-red-600 rounded text-white hover:bg-red-500"
+        >
+          Remove
+        </button>
+      </div>
+
+      <textarea
         placeholder="Description"
-        className="w-full p-2 bg-black rounded"
+        className="w-full p-2 bg-black rounded min-h-[72px]"
         value={f.desc}
         onChange={(e) => {
           const updated = [...features];
@@ -181,17 +223,25 @@ if (loading) return <div className="p-10">Loading...</div>;
   <h2 className="text-lg mb-2">Gallery</h2>
 
   {gallery.map((img, i) => (
-    <input
-      key={i}
-      placeholder="Image URL"
-      className="w-full mb-2 p-2 bg-black rounded"
-      value={img}
-      onChange={(e) => {
-        const updated = [...gallery];
-        updated[i] = e.target.value;
-        setGallery(updated);
-      }}
-    />
+    <div key={i} className="flex items-center gap-2 mb-2">
+      <input
+        placeholder="Image URL"
+        className="grow p-2 bg-black rounded"
+        value={img}
+        onChange={(e) => {
+          const updated = [...gallery];
+          updated[i] = e.target.value;
+          setGallery(updated);
+        }}
+      />
+
+      <button
+        onClick={() => setGallery(gallery.filter((_, idx) => idx !== i))}
+        className="shrink-0 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-500"
+      >
+        Remove
+      </button>
+    </div>
   ))}
 
   <button
@@ -202,33 +252,56 @@ if (loading) return <div className="p-10">Loading...</div>;
   </button>
 </div>
 
+<div className="mt-8">
+  <h2 className="text-lg mb-2">Contact Form</h2>
+
+  <label className="flex items-center gap-2">
+    <input
+      type="checkbox"
+      checked={contactEnabled}
+      onChange={(e) => setContactEnabled(e.target.checked)}
+    />
+    Enable Contact Form
+  </label>
+  <input
+  type="email"
+  placeholder="Receive messages at email"
+  className="w-full mt-3 p-2 rounded bg-black"
+  value={contactEmail}
+  disabled={!contactEnabled}
+  onChange={(e) => setContactEmail(e.target.value)}
+/>
+</div>
+
 
         {/* BUTTONS 🔥 */}
         <button
   onClick={handleSave}
-  className="w-full mb-2 bg-indigo-600 hover:bg-indigo-500 transition py-2 rounded-lg"
+  className="w-full mb-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition py-3 rounded-full text-white font-semibold shadow-lg"
 >
   Save
 </button>
 
 <button
   onClick={handlePublish}
-  className="w-full border border-gray-600 hover:bg-gray-800 transition py-2 rounded-lg"
+  className="w-full border border-gray-600 hover:bg-gray-800 transition py-3 rounded-full text-white font-semibold"
 >
   Publish
 </button>
-      </div>
+      </aside>
 
       {/* PREVIEW */}
-      <div className="flex-1 p-6">
-        <Preview
-  title={title}
-  theme={theme}
-  hero={hero}
-  features={features}
-  gallery={gallery}
-/>
-      </div>
+      <main className="flex-1 p-4 md:p-6 pt-16 md:pt-6">
+        <div className="h-full rounded-2xl border border-gray-800 bg-[#05050a] shadow-2xl overflow-hidden">
+          <Preview
+            title={title}
+            theme={theme}
+            hero={hero}
+            features={features}
+            gallery={gallery}
+          />
+        </div>
+      </main>
     </div>
   );
 }
