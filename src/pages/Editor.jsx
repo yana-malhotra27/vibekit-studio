@@ -22,7 +22,7 @@ export default function Editor() {
   const fetchPage = async () => {
     const token = localStorage.getItem("token");
 
-    const res = await fetch("/.netlify/functions/pages-get", {
+    const res = await fetch(getApiUrl("/.netlify/functions/pages-get"), {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -66,7 +66,7 @@ const handleSave = async () => {
 
   const token = localStorage.getItem("token");
 
-  await fetch("/.netlify/functions/pages-update", {
+  await fetch(getApiUrl("/.netlify/functions/pages-update"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -94,7 +94,7 @@ const handleSave = async () => {
 
 const handlePublish = async () => {
   const token = localStorage.getItem("token");
-  const res = await fetch("/.netlify/functions/pages-publish", {
+  const res = await fetch(getApiUrl("/.netlify/functions/pages-publish"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

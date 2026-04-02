@@ -58,7 +58,7 @@ export default function Dashboard() {
   const confirmDelete = window.confirm("Delete this page?");
   if (!confirmDelete) return;
 
-  await fetch("/.netlify/functions/pages-delete", {
+  await fetch(getApiUrl("/.netlify/functions/pages-delete"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

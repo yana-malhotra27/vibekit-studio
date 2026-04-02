@@ -7,7 +7,7 @@ export default function Signup() {
   const navigate = useNavigate();
 
   const handleSignup = async () => {
-    const res = await fetch("/.netlify/functions/auth-signup", {
+    const res = await fetch(getApiUrl("/.netlify/functions/auth-signup"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
