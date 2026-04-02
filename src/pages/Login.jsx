@@ -10,7 +10,7 @@ export default function Login() {
   const handleLogin = async () => {
   try {
     const res = await axios.post(
-      ".netlify/functions/auth-login",
+      "/.netlify/functions/auth-login",
       {
         email,
         password,
