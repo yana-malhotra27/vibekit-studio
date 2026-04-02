@@ -23,7 +23,9 @@ export const handler = async (event) => {
       buttonText: "Get Started",
       buttonUrl: "#",
     },
-    features: [],
+    features: [
+      { title: "", desc: "" }
+    ],
     gallery: [],
     contact: {},
   },

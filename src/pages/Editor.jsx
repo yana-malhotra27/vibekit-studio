@@ -11,6 +11,9 @@ export default function Editor() {
     title: "Welcome to my site",
     subtitle: "This is my page",
   });
+  const [features, setFeatures] = useState([
+  { title: "", desc: "" }
+]);
   const { id } = useParams();
 
   const [loading, setLoading] = useState(true);
@@ -37,6 +40,8 @@ export default function Editor() {
     subtitle: "Start editing",
   }
 );
+setFeatures(page.sections?.features || [{ title: "", desc: "" }]);
+setGallery(page.sections?.gallery || [""]);
     }
 
     setLoading(false);
@@ -44,6 +49,9 @@ export default function Editor() {
 
   fetchPage();
 }, [id]);
+
+const [gallery, setGallery] = useState([""]);
+
 const handleSave = async () => {
   const token = localStorage.getItem("token");
 
@@ -54,19 +62,23 @@ const handleSave = async () => {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
-      pageId: id,
-      title,
-      theme,
-      hero,
-    }),
+  pageId: id,
+  title,
+  theme,
+  sections: {
+    hero,
+    features,
+    gallery: gallery.filter((img) => img.trim() !== ""),
+  },
+})
   });
+  console.log("gallery:", gallery);
 
   alert("Saved!");
 };
 
 const handlePublish = async () => {
   const token = localStorage.getItem("token");
-
   const res = await fetch("/.netlify/functions/pages-publish", {
     method: "POST",
     headers: {
@@ -125,6 +137,72 @@ if (loading) return <div className="p-10">Loading...</div>;
           onChange={(e) => setHero({ ...hero, subtitle: e.target.value })}
         />
 
+        <div className="mt-8">
+  <h2 className="text-lg mb-2">Features</h2>
+
+  {features.map((f, i) => (
+    <div key={i} className="mb-3 p-3 bg-[var(--card)] rounded">
+      <input
+        placeholder="Title"
+        className="w-full mb-2 p-2 bg-black rounded"
+        value={f.title}
+        onChange={(e) => {
+          const updated = [...features];
+          updated[i].title = e.target.value;
+          setFeatures(updated);
+        }}
+      />
+
+      <input
+        placeholder="Description"
+        className="w-full p-2 bg-black rounded"
+        value={f.desc}
+        onChange={(e) => {
+          const updated = [...features];
+          updated[i].desc = e.target.value;
+          setFeatures(updated);
+        }}
+      />
+    </div>
+  ))}
+
+  </div>
+
+  <button
+    onClick={() =>
+      setFeatures([...features, { title: "", desc: "" }])
+    }
+    className="mt-2 px-3 py-1 bg-[var(--primary)] rounded"
+  >
+    + Add Feature
+  </button>
+
+<div className="mt-8">
+  <h2 className="text-lg mb-2">Gallery</h2>
+
+  {gallery.map((img, i) => (
+    <input
+      key={i}
+      placeholder="Image URL"
+      className="w-full mb-2 p-2 bg-black rounded"
+      value={img}
+      onChange={(e) => {
+        const updated = [...gallery];
+        updated[i] = e.target.value;
+        setGallery(updated);
+      }}
+    />
+  ))}
+
+  <button
+    onClick={() => setGallery([...gallery, ""])}
+    className="mt-2 px-3 py-1 bg-[var(--primary)] rounded"
+  >
+    + Add Image
+  </button>
+</div>
+
+
         {/* BUTTONS 🔥 */}
         <button
   onClick={handleSave}
@@ -143,7 +221,13 @@ if (loading) return <div className="p-10">Loading...</div>;
 
       {/* PREVIEW */}
       <div className="flex-1 p-6">
-        <Preview title={title} theme={theme} hero={hero} />
+        <Preview
+  title={title}
+  theme={theme}
+  hero={hero}
+  features={features}
+  gallery={gallery}
+/>
       </div>
     </div>
   );

@@ -9,25 +9,27 @@ export const handler = async (event) => {
     return { statusCode: 401, body: "Unauthorized" };
   }
 
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  jwt.verify(token, process.env.JWT_SECRET);
 
-  const { pageId, title, theme, hero } = JSON.parse(event.body);
+  // ✅ GET FULL SECTIONS
+  const { pageId, title, theme, sections } = JSON.parse(event.body);
 
   const db = await connectDB();
   const pages = db.collection("pages");
 
- await pages.updateOne(
-  { _id: new ObjectId(pageId) },
-  {
-    $set: {
-      title,
-      theme,
-      "sections.hero": hero, // ✅ THIS IS THE REAL FIX
-      updatedAt: new Date(),
-    },
-  }
-);
-      console.log("Updating:", { pageId, title, theme, hero });
+  await pages.updateOne(
+    { _id: new ObjectId(pageId) },
+    {
+      $set: {
+        title,
+        theme,
+        sections,
+        updatedAt: new Date(),
+      },
+    }
+  );
+
+  console.log("Updating:", { pageId, title, theme, sections });
 
   return {
     statusCode: 200,

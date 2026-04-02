@@ -19,8 +19,8 @@ export const handler = async (event) => {
   // simple slug generator
   const slug = title
   .toLowerCase()
-  .replace(/[^a-z0-9]+/g, "-")
-  .replace(/(^-|-$)/g, "");
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "") + "-" + Date.now();
 
   await pages.updateOne(
     { _id: new ObjectId(pageId), userId: decoded.userId },
