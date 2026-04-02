@@ -8,7 +8,7 @@ export default function PublicPage() {
 
   useEffect(() => {
     const fetchPage = async () => {
-      const res = await fetch(getApiUrl(`/.netlify/functions/page-public?slug=${slug}`));
+      const res = await fetch(`/.netlify/functions/page-public?slug=${slug}`);
       const data = await res.json();
       setPage(data);
     };
@@ -29,7 +29,7 @@ export default function PublicPage() {
   const email = document.getElementById("email").value;
   const message = document.getElementById("message").value;
 
-  await fetch(getApiUrl("/.netlify/functions/contact-submit"), {
+  await fetch("/.netlify/functions/contact-submit", {
     method: "POST",
     body: JSON.stringify({
       pageId: page._id,
