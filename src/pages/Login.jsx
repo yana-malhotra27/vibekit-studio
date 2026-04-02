@@ -6,12 +6,16 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-const API = axios.create({
-  baseURL: "/.netlify/functions",
-});
+
   const handleLogin = async () => {
   try {
-    await API.post("/auth-login", { email, password });
+    const res = await axios.post(
+      "/.netlify/functions/auth-login",
+      {
+        email,
+        password,
+      }
+    );
 
     localStorage.setItem("token", res.data.token);
     navigate("/app"); // 👈 THIS is the redirect
