@@ -72,7 +72,7 @@ export default function Dashboard() {
 };
 
   // ✅ Loading check
-  if (loading) return <div className="p-10">Loading pages...</div>;
+  if (loading) return <div className="min-h-screen flex items-center justify-center bg-black text-white text-lg font-medium">Loading pages...</div>;
 
   return (
     <div className="min-h-screen p-4 md:p-6 bg-black text-white">

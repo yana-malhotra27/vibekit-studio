@@ -33,9 +33,9 @@ export default function PublicPage() {
     fetchPage();
   }, [slug]);
 
-  if (!page) return <div className="p-10 text-center">Loading...</div>;
+  if (!page) return <div className="min-h-screen flex items-center justify-center bg-black text-white text-lg font-medium">Loading...</div>;
 
-  if (error) return <div className="p-10 text-center">{error}</div>;
+  if (error) return <div className="min-h-screen flex items-center justify-center bg-black text-white text-lg font-medium">{error}</div>;
 
   const features = page.sections?.features || [];
   const currentTheme = themes[page.theme] || themes.dark;

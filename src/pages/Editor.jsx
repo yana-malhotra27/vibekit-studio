@@ -150,7 +150,7 @@ const handlePublish = async () => {
   alert("Published & link copied!");
 };
 
-if (loading) return <div className="p-10">Loading...</div>;
+if (loading) return <div className="min-h-screen flex items-center justify-center bg-black text-white text-lg font-medium">Loading...</div>;
 
   return (
     <div className="flex min-h-screen bg-black text-white overflow-x-hidden">
