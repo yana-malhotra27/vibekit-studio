@@ -288,6 +288,7 @@ if (loading) return <div className="p-10">Loading...</div>;
 >
   Publish
 </button>
+<p className="text-xs text-gray-400 mt-2">Save before you publish</p>
       </aside>
 
       {/* PREVIEW */}

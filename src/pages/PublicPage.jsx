@@ -5,27 +5,12 @@ import { themes } from "../themes";
 export default function PublicPage() {
   const { slug } = useParams();
   const [page, setPage] = useState(null);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPage = async () => {
       const res = await fetch(`/.netlify/functions/page-public?slug=${slug}`);
-
-      if (!res.ok) {
-        setError("Page not found");
-        setPage(null);
-        return;
-      }
-
       const data = await res.json();
-      if (!data) {
-        setError("Page not found");
-        setPage(null);
-        return;
-      }
-
       setPage(data);
-      setError(null);
     };
 
     fetchPage();
