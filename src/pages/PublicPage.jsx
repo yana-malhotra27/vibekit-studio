@@ -27,10 +27,13 @@ export default function PublicPage() {
       setPage(data);
       setError(null);
     };
+
+    fetchPage();
   }, [slug]);
 
-  if (error) return <div className="p-10 text-center">{error}</div>;
   if (!page) return <div className="p-10 text-center">Loading...</div>;
+
+  if (error) return <div className="p-10 text-center">{error}</div>;
 
   const features = page.sections?.features || [];
   const currentTheme = themes[page.theme] || themes.dark;
