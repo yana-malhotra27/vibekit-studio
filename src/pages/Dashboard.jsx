@@ -84,7 +84,7 @@ export default function Dashboard() {
         <button
           onClick={() => {
             localStorage.removeItem("token");
-            window.location.href = "/login";
+            navigate("/login");
           }}
           className="bg-red-600 px-4 py-2 rounded-full text-sm md:text-base hover:bg-red-500 transition"
         >
