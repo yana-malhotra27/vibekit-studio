@@ -264,7 +264,19 @@ if (loading) return <div className="p-10">Loading...</div>;
   <h2 className="text-base md:text-lg mb-3">Gallery</h2>
 
   {gallery.map((img, i) => {
-    const isValidUrl = img && /^https?:\/\/.+\.(jpg|jpeg|png|gif|webp|svg)$/i.test(img);
+    const isValidUrl = img && (() => {
+      try {
+        const url = new URL(img);
+        if (!['http:', 'https:'].includes(url.protocol)) return false;
+        const path = url.pathname.toLowerCase();
+        const hasImageExtension = /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(path);
+        const hasImageHint = /(jpg|jpeg|png|gif|webp|svg)/i.test(url.search);
+        const gstaticImage = url.hostname.endsWith('gstatic.com');
+        return hasImageExtension || hasImageHint || gstaticImage;
+      } catch {
+        return false;
+      }
+    })();
     
     return (
     <div key={i} className="flex items-center gap-2 mb-3">

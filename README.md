@@ -190,6 +190,10 @@ Authenticated requests must include:
 - Ensure JWT expires and supports refresh tokens if needed.
 - Harden `page-public` so optional missing slugs return `404`.
 - Sanitize and escape content before rendering in frontend.
+- Gallery images will accept:
+  - URLs ending in `.jpg`, `.jpeg`, `.png`, `.gif`, `.webp`, `.svg`
+  - gstatic image URLs (`*.gstatic.com`), e.g. encrypted-tbn0 links
+  - URLs with image format references in query parameters
 
 1. Copy `.env` example (create if missing):
 
