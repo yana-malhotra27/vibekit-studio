@@ -6,6 +6,8 @@ export default function PublicPage() {
   const { slug } = useParams();
   const [page, setPage] = useState(null);
   const [error, setError] = useState(null);
+  const [contactError, setContactError] = useState("");
+  const [contactSuccess, setContactSuccess] = useState("");
 
   useEffect(() => {
     const fetchPage = async () => {
@@ -43,21 +45,67 @@ export default function PublicPage() {
   const contactEnabled = page.sections?.contact?.enabled;
   const contactEmail = page.sections?.contact?.email;
   const handleSubmit = async () => {
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const message = document.getElementById("message").value;
+    setContactError("");
+    setContactSuccess("");
 
-  await fetch("/.netlify/functions/contact-submit", {
-    method: "POST",
-    body: JSON.stringify({
-      pageId: page._id,
-      name,
-      email,
-      message,
-    }),
-  });
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const message = document.getElementById("message").value;
 
-  alert("Message sent!");
+    // Validation
+    if (!name.trim()) {
+      setContactError("Name is required");
+      return;
+    }
+
+    if (!email.trim()) {
+      setContactError("Email is required");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setContactError("Please enter a valid email address");
+      return;
+    }
+
+    if (!message.trim()) {
+      setContactError("Message is required");
+      return;
+    }
+
+    if (message.trim().length < 10) {
+      setContactError("Message must be at least 10 characters");
+      return;
+    }
+
+    try {
+      const res = await fetch("/.netlify/functions/contact-submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          pageId: page._id,
+          name,
+          email,
+          message,
+        }),
+      });
+
+      if (res.ok) {
+        setContactSuccess("Message sent successfully! We'll get back to you soon.");
+        document.getElementById("name").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("message").value = "";
+        setTimeout(() => setContactSuccess(""), 5000);
+      } else {
+        setContactError("Failed to send message. Please try again.");
+      }
+    } catch (err) {
+      setContactError("Error sending message");
+      console.error(err);
+    }
 };
 
 
@@ -108,19 +156,34 @@ export default function PublicPage() {
               placeholder="Your Name"
               className="w-full p-3 rounded bg-[var(--card)] text-xs sm:text-sm md:text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
               id="name"
+              onChange={() => setContactError("")}
             />
 
             <input
               placeholder="Email"
               className="w-full p-3 rounded bg-[var(--card)] text-xs sm:text-sm md:text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
               id="email"
+              onChange={() => setContactError("")}
             />
 
             <textarea
-              placeholder="Message"
+              placeholder="Message (minimum 10 characters)"
               className="w-full p-3 rounded bg-[var(--card)] text-xs sm:text-sm md:text-base min-h-[120px] border border-gray-700 focus:border-purple-500 focus:outline-none resize-none"
               id="message"
+              onChange={() => setContactError("")}
             />
+
+            {contactError && (
+              <div className="p-3 bg-red-600/20 border border-red-600 rounded text-red-200 text-sm">
+                {contactError}
+              </div>
+            )}
+
+            {contactSuccess && (
+              <div className="p-3 bg-green-600/20 border border-green-600 rounded text-green-200 text-sm">
+                {contactSuccess}
+              </div>
+            )}
 
             <button
               onClick={handleSubmit}

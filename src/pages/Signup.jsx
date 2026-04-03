@@ -4,9 +4,35 @@ import { useNavigate } from "react-router-dom";
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSignup = async () => {
+    setError("");
+    
+    // Validation
+    if (!email.trim()) {
+      setError("Email is required");
+      return;
+    }
+    
+    // Basic email format check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email");
+      return;
+    }
+    
+    if (!password.trim()) {
+      setError("Password is required");
+      return;
+    }
+    
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
+
     const res = await fetch("/.netlify/functions/auth-signup", {
       method: "POST",
       headers: {
@@ -21,7 +47,7 @@ export default function Signup() {
   localStorage.setItem("token", data.token);
   navigate("/app"); // ✅ ProtectedRoute will allow access
 } else {
-      alert(data.message || "Signup failed");
+      setError(data.message || "Signup failed");
     }
   };
 
@@ -40,17 +66,30 @@ export default function Signup() {
           <input
             placeholder="Email"
             className="w-full mb-4 p-3 rounded bg-black text-white placeholder-gray-500 text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
+            type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setError("");
+            }}
           />
 
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Password (min 6 characters)"
             className="w-full mb-6 p-3 rounded bg-black text-white placeholder-gray-500 text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setError("");
+            }}
           />
+
+          {error && (
+            <div className="mb-4 p-3 bg-red-600/20 border border-red-600 rounded text-red-200 text-sm">
+              {error}
+            </div>
+          )}
 
           <button
             onClick={handleSignup}

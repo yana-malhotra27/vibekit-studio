@@ -57,39 +57,77 @@ const [gallery, setGallery] = useState([""]);
 
 const [contactEnabled, setContactEnabled] = useState(true);
 const [contactEmail, setContactEmail] = useState("");
+const [saveError, setSaveError] = useState("");
+const [saveSuccess, setSaveSuccess] = useState("");
 
 const handleSave = async () => {
-  if (contactEnabled && !contactEmail) {
-    alert("Please enter email for contact form");
+  setSaveError("");
+  setSaveSuccess("");
+
+  // Validation
+  if (!title.trim()) {
+    setSaveError("Page title is required");
     return;
+  }
+
+  if (!hero.title.trim()) {
+    setSaveError("Hero title is required");
+    return;
+  }
+
+  if (!hero.subtitle.trim()) {
+    setSaveError("Hero subtitle is required");
+    return;
+  }
+
+  if (contactEnabled && !contactEmail.trim()) {
+    setSaveError("Email is required for contact form");
+    return;
+  }
+
+  if (contactEnabled) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(contactEmail)) {
+      setSaveError("Please enter a valid email address");
+      return;
+    }
   }
 
   const token = localStorage.getItem("token");
 
-  await fetch("/.netlify/functions/pages-update", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+  try {
+    const res = await fetch("/.netlify/functions/pages-update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+    pageId: id,
+    title,
+    theme,
+    sections: {
+      hero,
+      features,
+      gallery: gallery.filter((img) => img.trim() !== ""),
+      contact: {
+      enabled: contactEnabled,
+      email: contactEmail,
     },
-    body: JSON.stringify({
-  pageId: id,
-  title,
-  theme,
-  sections: {
-    hero,
-    features,
-    gallery: gallery.filter((img) => img.trim() !== ""),
-    contact: {
-    enabled: contactEnabled,
-    email: contactEmail,
-  },
-  },
-})
-  });
-  console.log("gallery:", gallery);
+    },
+  })
+    });
 
-  alert("Saved!");
+    if (res.ok) {
+      setSaveSuccess("Page saved successfully!");
+      setTimeout(() => setSaveSuccess(""), 3000);
+    } else {
+      setSaveError("Failed to save page");
+    }
+  } catch (err) {
+    setSaveError("Error saving page");
+    console.error(err);
+  }
 };
 
 const handlePublish = async () => {
@@ -140,7 +178,10 @@ if (loading) return <div className="p-10">Loading...</div>;
         <input
           className="w-full mt-2 mb-4 p-3 rounded-lg bg-[#111] border border-gray-700 placeholder-gray-500 text-base focus:border-purple-500 focus:outline-none"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => {
+            setTitle(e.target.value);
+            setSaveError("");
+          }}
         />
 
         <label className="text-xs md:text-sm text-gray-400">Theme</label>
@@ -276,13 +317,29 @@ if (loading) return <div className="p-10">Loading...</div>;
   <input
   type="email"
   placeholder="Receive messages at email"
-  className="w-full mt-3 p-3 rounded bg-black text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
+  className={`w-full mt-3 p-3 rounded bg-black text-base border focus:border-purple-500 focus:outline-none ${
+    contactEnabled && contactEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail) ? 'border-red-600' : 'border-gray-700'
+  }`}
   value={contactEmail}
   disabled={!contactEnabled}
-  onChange={(e) => setContactEmail(e.target.value)}
+  onChange={(e) => {
+    setContactEmail(e.target.value);
+    setSaveError("");
+  }}
 />
 </div>
 
+{saveError && (
+  <div className="mt-4 p-3 bg-red-600/20 border border-red-600 rounded text-red-200 text-sm">
+    {saveError}
+  </div>
+)}
+
+{saveSuccess && (
+  <div className="mt-4 p-3 bg-green-600/20 border border-green-600 rounded text-green-200 text-sm">
+    {saveSuccess}
+  </div>
+)}
 
         {/* BUTTONS 🔥 */}
         <button
