@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 export default function Dashboard() {
   const [pages, setPages] = useState([]); // ✅ only one declaration
   const [loading, setLoading] = useState(true);
+  const [creating, setCreating] = useState(false);
   const navigate = useNavigate();
 
   const fetchPages = async () => {
@@ -35,6 +36,7 @@ export default function Dashboard() {
   }, []);
 
   const createPage = async () => {
+    setCreating(true);
     try {
       await axios.post(
         "/.netlify/functions/pages-create",
@@ -49,6 +51,8 @@ export default function Dashboard() {
       fetchPages();
     } catch (err) {
       console.error(err);
+    } finally {
+      setCreating(false);
     }
   };
 
@@ -94,9 +98,10 @@ export default function Dashboard() {
 
       <button
         onClick={createPage}
-        className="btn mb-6 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full font-semibold shadow-lg hover:from-purple-600 hover:to-blue-600 transition"
+        disabled={creating}
+        className={`btn mb-6 rounded-full font-semibold shadow-lg ${creating ? 'bg-gray-600 cursor-not-allowed' : 'bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600'} transition`}
       >
-        + Create Page
+        {creating ? 'Creating page, please wait...' : '+ Create Page'}
       </button>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

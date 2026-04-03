@@ -152,26 +152,35 @@ export default function PublicPage() {
           <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">Contact Us</h2>
 
           <div className="grid gap-3 md:gap-4">
-            <input
-              placeholder="Your Name"
-              className="w-full p-3 rounded bg-[var(--card)] text-xs sm:text-sm md:text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
-              id="name"
-              onChange={() => setContactError("")}
-            />
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">👤</span>
+              <input
+                placeholder="Your Name"
+                className="w-full pl-10 p-3 rounded bg-[var(--card)] text-xs sm:text-sm md:text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
+                id="name"
+                onChange={() => setContactError("")}
+              />
+            </div>
 
-            <input
-              placeholder="Email"
-              className="w-full p-3 rounded bg-[var(--card)] text-xs sm:text-sm md:text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
-              id="email"
-              onChange={() => setContactError("")}
-            />
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">📧</span>
+              <input
+                placeholder="Email"
+                className="w-full pl-10 p-3 rounded bg-[var(--card)] text-xs sm:text-sm md:text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
+                id="email"
+                onChange={() => setContactError("")}
+              />
+            </div>
 
-            <textarea
-              placeholder="Message (minimum 10 characters)"
-              className="w-full p-3 rounded bg-[var(--card)] text-xs sm:text-sm md:text-base min-h-[120px] border border-gray-700 focus:border-purple-500 focus:outline-none resize-none"
-              id="message"
-              onChange={() => setContactError("")}
-            />
+            <div className="relative">
+              <span className="absolute left-3 top-3 text-gray-400 text-lg">✏️</span>
+              <textarea
+                placeholder="Message (minimum 10 characters)"
+                className="w-full pl-10 p-3 rounded bg-[var(--card)] text-xs sm:text-sm md:text-base min-h-[120px] border border-gray-700 focus:border-purple-500 focus:outline-none resize-none"
+                id="message"
+                onChange={() => setContactError("")}
+              />
+            </div>
 
             {contactError && (
               <div className="p-3 bg-red-600/20 border border-red-600 rounded text-red-200 text-sm">

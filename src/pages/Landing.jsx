@@ -29,7 +29,7 @@ return ( <div className="min-h-screen lg:h-screen overflow-y-auto lg:overflow-hi
   {/* HERO */}
   <section className="text-center py-6 md:py-8 lg:py-5">
     <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent animate-float" style={{
-      textShadow: '0 0 20px rgba(147, 51, 234, 0.6), 0 0 40px rgba(147, 51, 234, 0.4), 0 0 80px rgba(147, 51, 234, 0.25)'
+      textShadow: '0 0 10px rgba(147, 51, 234, 0.4), 0 0 20px rgba(147, 51, 234, 0.25)'
     }}>
       Create stunning pages <br className="hidden md:block" /> with zero effort
     </h2>
@@ -48,9 +48,12 @@ return ( <div className="min-h-screen lg:h-screen overflow-y-auto lg:overflow-hi
       </Link>
 
       {/* LIVE DEMO */}
-      <button className="btn border-2 border-white/30 rounded-full text-white text-sm md:text-base transition hover:bg-white/10 hover:scale-105">
+      <Link
+        to="/signup"
+        className="btn border-2 border-white/40 rounded-full text-white text-sm md:text-base transition hover:bg-white/10 hover:scale-105"
+      >
         Live Demo
-      </button>
+      </Link>
     </div>
   </section>
 
