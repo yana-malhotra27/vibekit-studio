@@ -222,11 +222,16 @@ if (loading) return <div className="p-10">Loading...</div>;
 <div className="mt-6 md:mt-8">
   <h2 className="text-base md:text-lg mb-3">Gallery</h2>
 
-  {gallery.map((img, i) => (
+  {gallery.map((img, i) => {
+    const isValidUrl = img && /^https?:\/\/.+\.(jpg|jpeg|png|gif|webp|svg)$/i.test(img);
+    
+    return (
     <div key={i} className="flex items-center gap-2 mb-3">
       <input
-        placeholder="Image URL"
-        className="grow p-3 bg-black rounded text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
+        placeholder="Image URL (https://...)"
+        className={`grow p-3 bg-black rounded text-base border focus:border-purple-500 focus:outline-none ${
+          img && !isValidUrl ? 'border-red-600' : 'border-gray-700'
+        }`}
         value={img}
         onChange={(e) => {
           const updated = [...gallery];
@@ -234,6 +239,9 @@ if (loading) return <div className="p-10">Loading...</div>;
           setGallery(updated);
         }}
       />
+      {img && !isValidUrl && (
+        <span className="text-xs text-red-400 shrink-0">Invalid URL</span>
+      )}
 
       <button
         onClick={() => setGallery(gallery.filter((_, idx) => idx !== i))}
@@ -242,7 +250,8 @@ if (loading) return <div className="p-10">Loading...</div>;
         Remove
       </button>
     </div>
-  ))}
+  );
+  })}
 
   <button
     onClick={() => setGallery([...gallery, ""])}

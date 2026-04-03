@@ -5,9 +5,30 @@ import axios from "axios";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+  setError("");
+  
+  // Validation
+  if (!email.trim()) {
+    setError("Email is required");
+    return;
+  }
+  
+  if (!password.trim()) {
+    setError("Password is required");
+    return;
+  }
+  
+  // Basic email format check
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    setError("Please enter a valid email");
+    return;
+  }
+  
   try {
     const res = await axios.post(
       "/.netlify/functions/auth-login",
@@ -21,7 +42,7 @@ export default function Login() {
     navigate("/app");
   } catch (err) {
     console.log(err);
-    alert("Login failed");
+    setError(err.response?.data?.message || "Login failed. Check your credentials.");
   }
 };
 
@@ -40,15 +61,30 @@ export default function Login() {
           <input
             className="w-full mb-4 p-3 rounded bg-black text-white placeholder-gray-500 text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
             placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
+            type="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setError("");
+            }}
           />
 
           <input
             className="w-full mb-6 p-3 rounded bg-black text-white placeholder-gray-500 text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
             placeholder="Password"
             type="password"
-            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setError("");
+            }}
           />
+
+          {error && (
+            <div className="mb-4 p-3 bg-red-600/20 border border-red-600 rounded text-red-200 text-sm">
+              {error}
+            </div>
+          )}  
 
           <button
             onClick={handleLogin}
