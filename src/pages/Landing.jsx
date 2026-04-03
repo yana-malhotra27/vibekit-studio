@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 export default function Landing() {
-return ( <div className="min-h-screen bg-black text-white px-4 md:px-6 py-6 md:py-8 flex flex-col">
+return ( <div className="min-h-screen lg:h-screen overflow-y-auto lg:overflow-hidden bg-black text-white px-4 md:px-6 py-4 md:py-6 lg:py-4 flex flex-col">
 
   {/* NAVBAR */}
   <nav className="flex justify-between items-center mb-8 md:mb-12">
@@ -27,7 +27,7 @@ return ( <div className="min-h-screen bg-black text-white px-4 md:px-6 py-6 md:p
   </nav>
 
   {/* HERO */}
-  <section className="text-center py-8 md:py-12">
+  <section className="text-center py-6 md:py-8 lg:py-5">
     <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent animate-float" style={{
       textShadow: '0 0 20px rgba(147, 51, 234, 0.6), 0 0 40px rgba(147, 51, 234, 0.4), 0 0 80px rgba(147, 51, 234, 0.25)'
     }}>
@@ -55,7 +55,7 @@ return ( <div className="min-h-screen bg-black text-white px-4 md:px-6 py-6 md:p
   </section>
 
   {/* THEME PREVIEW */}
-  <section className="w-full py-8 md:py-12">
+  <section className="w-full py-6 md:py-10 lg:py-6">
     <div className="max-w-6xl mx-auto">
       <h3 className="text-lg md:text-2xl font-semibold mb-6 md:mb-10 text-center">
         Choose your vibe
