@@ -119,7 +119,7 @@ export default function Signup() {
           <div className="relative mb-6">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">🔐</span>
             <input
-              type={showConfirmPassword ? "text" : "password"}
+              type={"password"}
               placeholder="Confirm password"
               className="w-full pl-11 pr-11 py-3 rounded bg-[#0f1116] text-white placeholder-gray-500 text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
               value={confirmPassword}
@@ -128,13 +128,6 @@ export default function Signup() {
                 setError("");
               }}
             />
-            <button
-              type="button"
-              onClick={() => setShowConfirmPassword((v) => !v)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
-            >
-              {showConfirmPassword ? '🙈' : '👁'}
-            </button>
           </div>
 
           {error && (
