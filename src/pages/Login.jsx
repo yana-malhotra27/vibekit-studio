@@ -18,7 +18,7 @@ export default function Login() {
     );
 
     localStorage.setItem("token", res.data.token);
-    navigate("/app"); // 👈 THIS is the redirect
+    navigate("/app");
   } catch (err) {
     console.log(err);
     alert("Login failed");

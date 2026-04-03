@@ -23,8 +23,8 @@ export const handler = async (event) => {
     password: hashed,
   });
 
-  // 🔑 Create token
-  const token = jwt.sign({ id: result.insertedId }, process.env.JWT_SECRET, {
+  // 🔑 Create token (same payload key as auth-login)
+  const token = jwt.sign({ userId: result.insertedId.toString() }, process.env.JWT_SECRET, {
     expiresIn: "7d",
   });
 

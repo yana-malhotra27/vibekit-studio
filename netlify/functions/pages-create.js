@@ -4,6 +4,10 @@ import jwt from "jsonwebtoken";
 export const handler = async (event) => {
   const token = event.headers.authorization?.split(" ")[1];
 
+  if (!token) {
+    return { statusCode: 401, body: "Unauthorized" };
+  }
+
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
   const { title } = JSON.parse(event.body);
