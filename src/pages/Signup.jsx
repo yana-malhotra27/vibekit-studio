@@ -30,16 +30,16 @@ export default function Signup() {
       <div className="w-full max-w-sm">
         <button
           onClick={() => navigate("/")}
-          className="mb-4 text-gray-400 hover:text-white transition"
+          className="btn mb-6 text-gray-400 hover:text-white transition rounded"
         >
           ← Back
         </button>
-        <div className="w-full max-w-sm p-6 bg-[#111] rounded-xl">
-          <h2 className="text-xl font-semibold mb-4">Create Account</h2>
+        <div className="w-full p-5 sm:p-6 md:p-8 bg-[#111] rounded-xl border border-gray-800">
+          <h2 className="text-2xl font-semibold mb-6">Create Account</h2>
 
           <input
             placeholder="Email"
-            className="w-full mb-3 p-3 rounded bg-black text-base"
+            className="w-full mb-4 p-3 rounded bg-black text-white placeholder-gray-500 text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -47,14 +47,14 @@ export default function Signup() {
           <input
             type="password"
             placeholder="Password"
-            className="w-full mb-4 p-3 rounded bg-black text-base"
+            className="w-full mb-6 p-3 rounded bg-black text-white placeholder-gray-500 text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
 
           <button
             onClick={handleSignup}
-            className="w-full bg-indigo-600 hover:bg-indigo-500 py-2 rounded-lg text-base"
+            className="btn w-full bg-indigo-600 hover:bg-indigo-500 rounded-lg font-semibold"
           >
             Signup
           </button>

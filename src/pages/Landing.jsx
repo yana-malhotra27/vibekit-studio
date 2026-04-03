@@ -38,29 +38,29 @@ return ( <div className="h-screen bg-black text-white px-4 md:px-6 py-6 overflow
       Pick a theme, customize your content, and publish instantly.
     </p>
 
-    <div className="flex flex-col sm:flex-row justify-center gap-4">
+    <div className="flex flex-col sm:flex-row justify-center gap-4 px-4">
       {/* START BUILDING */}
       <Link
         to="/signup"
-        className="bg-gradient-to-r from-purple-500 to-pink-500 px-6 py-3 rounded-full text-lg text-white font-semibold transition transform hover:scale-105 shadow-lg"
+        className="btn bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white font-semibold transition transform hover:scale-105 shadow-lg"
       >
         Start Building
       </Link>
 
       {/* LIVE DEMO */}
-      <button className="border-2 border-white/30 px-6 py-3 rounded-full text-lg text-white transition hover:bg-white/10 hover:scale-105">
+      <button className="btn border-2 border-white/30 rounded-full text-white transition hover:bg-white/10 hover:scale-105">
         Live Demo
       </button>
     </div>
   </section>
 
   {/* THEME PREVIEW */}
-  <section className="max-w-6xl mx-auto px-4 md:px-6">
-    <h3 className="text-xl md:text-2xl font-semibold mb-10 text-center">
+  <section className="max-w-6xl mx-auto px-4 md:px-6 w-full">
+    <h3 className="text-lg md:text-2xl font-semibold mb-6 md:mb-10 text-center">
       Choose your vibe
     </h3>
 
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
       
       {/* Theme Card 1 */}
       <div className="rounded-2xl p-6 bg-[#111] border border-gray-800 hover:scale-105 transition">

@@ -30,21 +30,21 @@ export default function Login() {
       <div className="w-full max-w-sm">
         <button
           onClick={() => navigate("/")}
-          className="mb-4 text-gray-400 hover:text-white transition"
+          className="btn mb-6 text-gray-400 hover:text-white transition rounded"
         >
           ← Back
         </button>
-        <div className="bg-[#111] p-6 md:p-8 rounded-xl">
-          <h2 className="text-xl mb-4">Login</h2>
+        <div className="bg-[#111] p-5 sm:p-6 md:p-8 rounded-xl border border-gray-800">
+          <h2 className="text-2xl font-semibold mb-6">Login</h2>
 
           <input
-            className="w-full mb-4 p-3 rounded bg-black text-white text-base"
+            className="w-full mb-4 p-3 rounded bg-black text-white placeholder-gray-500 text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
             placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
           />
 
           <input
-            className="w-full mb-3 p-3 rounded bg-black text-white placeholder-gray-400 text-base"
+            className="w-full mb-6 p-3 rounded bg-black text-white placeholder-gray-500 text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
             placeholder="Password"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
@@ -52,7 +52,7 @@ export default function Login() {
 
           <button
             onClick={handleLogin}
-            className="w-full bg-[var(--primary)] py-2 rounded text-white hover:opacity-90 transition text-base"
+            className="btn w-full bg-[var(--primary)] rounded text-white hover:opacity-90 transition font-semibold"
           >
             Login
           </button>

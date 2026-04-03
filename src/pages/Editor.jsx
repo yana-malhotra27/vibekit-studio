@@ -115,55 +115,55 @@ const handlePublish = async () => {
 if (loading) return <div className="p-10">Loading...</div>;
 
   return (
-    <div className="flex min-h-screen bg-black text-white">
+    <div className="flex min-h-screen bg-black text-white overflow-x-hidden">
       {/* MOBILE SIDEBAR TOGGLE */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-full shadow-lg"
+        className="btn md:hidden fixed top-4 left-4 z-50 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg"
       >
         {sidebarOpen ? '✕' : '☰'}
       </button>
 
       {/* LEFT PANEL */}
-      <aside className={`w-full md:w-[360px] p-6 border-r border-gray-800 bg-[#0f0f10]/80 backdrop-blur fixed md:relative z-40 h-full md:h-auto overflow-y-auto transition-transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
-        <div className="mb-4 flex items-center justify-between">
+      <aside className={`w-full md:w-[360px] p-4 sm:p-5 md:p-6 border-r border-gray-800 bg-[#0f0f10]/80 backdrop-blur fixed md:relative z-40 h-screen md:h-auto overflow-y-auto transition-transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+        <div className="mb-4 flex items-center justify-between gap-2">
           <h2 className="text-lg font-semibold">Page Settings</h2>
           <button
             onClick={() => window.history.back()}
-            className="text-sm text-gray-300 hover:text-white transition px-2 py-1 rounded-full bg-white/10"
+            className="btn text-xs md:text-sm text-gray-300 hover:text-white transition rounded bg-white/10"
           >
             Back
           </button>
         </div>
 
-        <label className="text-sm text-gray-400">Title</label>
+        <label className="text-xs md:text-sm text-gray-400">Title</label>
         <input
-          className="w-full mt-2 mb-4 p-3 rounded-lg bg-[#111] border border-gray-700 placeholder-gray-500"
+          className="w-full mt-2 mb-4 p-3 rounded-lg bg-[#111] border border-gray-700 placeholder-gray-500 text-base focus:border-purple-500 focus:outline-none"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
 
-        <label className="text-sm text-gray-400">Theme</label>
+        <label className="text-xs md:text-sm text-gray-400">Theme</label>
         <select
   value={theme}
   onChange={(e) => setTheme(e.target.value)}
-  className="w-full mt-2 mb-6 p-3 rounded-lg bg-[#111] border border-gray-700"
+  className="w-full mt-2 mb-6 p-3 rounded-lg bg-[#111] border border-gray-700 text-base focus:border-purple-500 focus:outline-none"
 >
           <option value="dark">Dark</option>
           <option value="light">Light</option>
           <option value="retro">Retro</option>
         </select>
 
-        <label className="text-sm text-gray-400">Hero Title</label>
+        <label className="text-xs md:text-sm text-gray-400">Hero Title</label>
         <input
-          className="w-full mt-1 mb-3 p-2 rounded bg-[#111]"
+          className="w-full mt-1 mb-3 p-3 rounded bg-[#111] text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
           value={hero.title}
           onChange={(e) => setHero({ ...hero, title: e.target.value })}
         />
 
-        <label className="text-sm text-gray-400">Hero Subtitle</label>
+        <label className="text-xs md:text-sm text-gray-400">Hero Subtitle</label>
         <input
-          className="w-full mt-1 mb-4 p-2 rounded bg-[#111]"
+          className="w-full mt-1 mb-4 p-3 rounded bg-[#111] text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
           value={hero.subtitle}
           onChange={(e) => setHero({ ...hero, subtitle: e.target.value })}
         />
@@ -214,19 +214,19 @@ if (loading) return <div className="p-10">Loading...</div>;
     onClick={() =>
       setFeatures([...features, { title: "", desc: "" }])
     }
-    className="mt-2 px-3 py-1 bg-[var(--primary)] rounded"
+    className="btn mt-2 bg-[var(--primary)] rounded"
   >
     + Add Feature
   </button>
 
-<div className="mt-8">
-  <h2 className="text-lg mb-2">Gallery</h2>
+<div className="mt-6 md:mt-8">
+  <h2 className="text-base md:text-lg mb-3">Gallery</h2>
 
   {gallery.map((img, i) => (
-    <div key={i} className="flex items-center gap-2 mb-2">
+    <div key={i} className="flex items-center gap-2 mb-3">
       <input
         placeholder="Image URL"
-        className="grow p-2 bg-black rounded"
+        className="grow p-3 bg-black rounded text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
         value={img}
         onChange={(e) => {
           const updated = [...gallery];
@@ -237,7 +237,7 @@ if (loading) return <div className="p-10">Loading...</div>;
 
       <button
         onClick={() => setGallery(gallery.filter((_, idx) => idx !== i))}
-        className="shrink-0 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-500"
+        className="btn text-xs bg-red-600 text-white rounded hover:bg-red-500 shrink-0"
       >
         Remove
       </button>
@@ -246,27 +246,28 @@ if (loading) return <div className="p-10">Loading...</div>;
 
   <button
     onClick={() => setGallery([...gallery, ""])}
-    className="mt-2 px-3 py-1 bg-[var(--primary)] rounded"
+    className="btn mt-2 bg-[var(--primary)] rounded"
   >
     + Add Image
   </button>
 </div>
 
-<div className="mt-8">
-  <h2 className="text-lg mb-2">Contact Form</h2>
+<div className="mt-6 md:mt-8">
+  <h2 className="text-base md:text-lg mb-3">Contact Form</h2>
 
-  <label className="flex items-center gap-2">
+  <label className="flex items-center gap-2 text-sm">
     <input
       type="checkbox"
       checked={contactEnabled}
       onChange={(e) => setContactEnabled(e.target.checked)}
+      className="w-4 h-4 cursor-pointer"
     />
     Enable Contact Form
   </label>
   <input
   type="email"
   placeholder="Receive messages at email"
-  className="w-full mt-3 p-2 rounded bg-black"
+  className="w-full mt-3 p-3 rounded bg-black text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
   value={contactEmail}
   disabled={!contactEnabled}
   onChange={(e) => setContactEmail(e.target.value)}
@@ -277,14 +278,14 @@ if (loading) return <div className="p-10">Loading...</div>;
         {/* BUTTONS 🔥 */}
         <button
   onClick={handleSave}
-  className="w-full mb-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition py-3 rounded-full text-white font-semibold shadow-lg"
+  className="btn w-full mt-6 md:mt-8 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition rounded-full text-white font-semibold shadow-lg"
 >
   Save
 </button>
 
 <button
   onClick={handlePublish}
-  className="w-full border border-gray-600 hover:bg-gray-800 transition py-3 rounded-full text-white font-semibold"
+  className="btn w-full mt-3 border border-gray-600 hover:bg-gray-800 transition rounded-full text-white font-semibold"
 >
   Publish
 </button>
@@ -292,7 +293,7 @@ if (loading) return <div className="p-10">Loading...</div>;
       </aside>
 
       {/* PREVIEW */}
-      <main className="flex-1 p-4 md:p-6 pt-16 md:pt-6">
+      <main className="flex-1 p-3 sm:p-4 md:p-6 pt-20 sm:pt-16 md:pt-6 w-full md:w-auto overflow-x-hidden">
         <div className="h-full rounded-2xl border border-gray-800 bg-[#05050a] shadow-2xl overflow-hidden">
           <Preview
             title={title}

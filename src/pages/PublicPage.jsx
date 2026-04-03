@@ -64,67 +64,67 @@ export default function PublicPage() {
   return (
   <div
     style={currentTheme}
-    className="min-h-screen bg-[var(--bg)] text-[var(--text)]"
+    className="min-h-screen bg-[var(--bg)] text-[var(--text)] overflow-x-hidden"
   >
-    <div className="p-4 md:p-10 text-center">
-      <h1 className="text-2xl md:text-4xl font-bold">
+    <div className="w-full p-4 sm:p-6 md:p-10 text-center">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">
         {page.sections?.hero?.title}
       </h1>
 
-      <p className="mt-4 opacity-80 text-sm md:text-base">
+      <p className="mt-3 md:mt-4 opacity-80 text-xs sm:text-sm md:text-base">
         {page.sections?.hero?.subtitle}
       </p>
 
       {/* FEATURES */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mt-8 md:mt-10">
         {features.map((f, i) => (
-          <div key={i} className="p-4 rounded-xl bg-[var(--card)]">
-            <h3 className="text-lg font-semibold">{f.title}</h3>
-            <p className="text-sm opacity-80 mt-2">{f.desc}</p>
+          <div key={i} className="p-4 sm:p-5 rounded-xl bg-[var(--card)]">
+            <h3 className="text-base md:text-lg font-semibold">{f.title}</h3>
+            <p className="text-xs md:text-sm opacity-80 mt-2">{f.desc}</p>
           </div>
         ))}
       </div>
 
       {/* ✅ GALLERY */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mt-8 md:mt-10">
         {gallery.map((img, i) => (
           img?.trim() && (
             <img
               key={i}
               src={img}
               alt="gallery"
-              className="w-full h-32 md:h-40 object-cover rounded-xl"
+              className="w-full h-32 sm:h-36 md:h-40 object-cover rounded-xl"
             />
           )
         ))}
       </div>
 
       {contactEnabled && (
-        <div className="mt-14 max-w-2xl mx-auto text-left px-4 sm:px-0">
-          <h2 className="text-3xl font-bold mb-4 text-center">Contact Us</h2>
+        <div className="mt-12 md:mt-14 max-w-2xl mx-auto text-left px-2 sm:px-4 md:px-0">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">Contact Us</h2>
 
-          <div className="grid gap-3">
+          <div className="grid gap-3 md:gap-4">
             <input
               placeholder="Your Name"
-              className="w-full p-3 rounded bg-[var(--card)] text-sm md:text-base"
+              className="w-full p-3 rounded bg-[var(--card)] text-xs sm:text-sm md:text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
               id="name"
             />
 
             <input
               placeholder="Email"
-              className="w-full p-3 rounded bg-[var(--card)] text-sm md:text-base"
+              className="w-full p-3 rounded bg-[var(--card)] text-xs sm:text-sm md:text-base border border-gray-700 focus:border-purple-500 focus:outline-none"
               id="email"
             />
 
             <textarea
               placeholder="Message"
-              className="w-full p-3 rounded bg-[var(--card)] text-sm md:text-base min-h-[120px]"
+              className="w-full p-3 rounded bg-[var(--card)] text-xs sm:text-sm md:text-base min-h-[120px] border border-gray-700 focus:border-purple-500 focus:outline-none resize-none"
               id="message"
             />
 
             <button
               onClick={handleSubmit}
-              className="w-full py-3 bg-[var(--primary)] rounded text-base font-semibold hover:opacity-90"
+              className="btn w-full bg-[var(--primary)] rounded text-white font-semibold hover:opacity-90"
             >
               Send
             </button>

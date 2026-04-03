@@ -86,7 +86,7 @@ export default function Dashboard() {
             localStorage.removeItem("token");
             navigate("/login");
           }}
-          className="bg-red-600 px-4 py-2 rounded-full text-sm md:text-base hover:bg-red-500 transition"
+          className="btn bg-red-600 rounded-full hover:bg-red-500 transition"
         >
           Logout
         </button>
@@ -94,7 +94,7 @@ export default function Dashboard() {
 
       <button
         onClick={createPage}
-        className="mb-4 bg-gradient-to-r from-purple-500 to-blue-500 px-5 py-3 rounded-full text-base font-semibold shadow-lg hover:from-purple-600 hover:to-blue-600 transition"
+        className="btn mb-6 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full font-semibold shadow-lg hover:from-purple-600 hover:to-blue-600 transition"
       >
         + Create Page
       </button>
@@ -118,7 +118,7 @@ export default function Dashboard() {
           {p.status === "published" && (
             <button
               onClick={() => window.open(`/site/${p.slug}`, "_blank")}
-              className="px-4 py-2 text-sm bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-full shadow-lg transition"
+              className="btn text-sm bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-full shadow-lg transition"
             >
               View
             </button>
@@ -127,7 +127,7 @@ export default function Dashboard() {
           {/* EDIT */}
           <button
             onClick={() => navigate(`/editor/${p._id}`)}
-            className="px-4 py-2 text-sm bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 rounded-full shadow-lg transition"
+            className="btn text-sm bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 rounded-full shadow-lg transition"
           >
             Edit
           </button>
@@ -135,7 +135,7 @@ export default function Dashboard() {
           {/* DELETE */}
           <button
             onClick={() => handleDelete(p._id)}
-            className="px-4 py-2 text-sm bg-red-600 hover:bg-red-500 rounded-full shadow-lg transition"
+            className="btn text-sm bg-red-600 hover:bg-red-500 rounded-full shadow-lg transition"
           >
             Delete
           </button>
